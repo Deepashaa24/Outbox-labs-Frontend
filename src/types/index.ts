@@ -14,6 +14,7 @@ export interface EmailJob {
 
 export interface ApiError {
   error: string;
+  hint?: string;
   details?: Record<string, string[] | undefined>;
 }
 

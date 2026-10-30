@@ -21,7 +21,11 @@ export async function apiRequest<T>(path: string, init?: RequestInit): Promise<T
 
   if (!response.ok) {
     const error = (await response.json().catch(() => null)) as ApiError | null;
-    throw new ApiRequestError(error?.error ?? `Request failed (${response.status})`, response.status);
+    const message = error?.error ?? `Request failed (${response.status})`;
+    throw new ApiRequestError(
+      error?.hint ? `${message} ${error.hint}` : message,
+      response.status
+    );
   }
 
   if (response.status === 204) return undefined as T;
